@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Force Placement Calculator</title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKhd6RLYsytxnCU6aNgjOqQQTkmnKpkUo&libraries=places"></script>
     
     <style>
         * {
@@ -13,7 +12,7 @@
             margin: 0;
             padding: 0;
         }
-        
+
         body {
             font-family: Manrope, Helvetica, Arial, sans-serif;
             line-height: 1.6;
@@ -22,14 +21,14 @@
             min-height: 100vh;
             font-weight: 400;
         }
-        
+
         .calculator-container {
             max-width: 1200px;
             margin: 40px auto;
             position: relative;
             z-index: 1;
         }
-        
+
         .header {
             background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             color: white;
@@ -42,7 +41,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-bottom: none;
         }
-        
+
         .header h1 {
             font-size: 48px;
             line-height: 58px;
@@ -53,7 +52,7 @@
             z-index: 2;
             color: white;
         }
-        
+
         .header p {
             font-size: 1.1rem;
             opacity: 0.9;
@@ -62,7 +61,7 @@
             z-index: 2;
             color: white;
         }
-        
+
         .tabs {
             display: flex;
             background: rgba(255, 255, 255, 0.95);
@@ -73,7 +72,7 @@
             gap: 2px;
             padding: 4px;
         }
-        
+
         .tab {
             flex: 1;
             padding: 20px 28px;
@@ -90,7 +89,7 @@
             position: relative;
             border-radius: 12px;
         }
-        
+
         .tab::after {
             content: '';
             position: absolute;
@@ -103,17 +102,17 @@
             transition: all 0.3s ease;
             border-radius: 2px;
         }
-        
+
         .tab:hover {
             color: #3b82f6;
             background: rgba(59, 130, 246, 0.08);
             transform: translateY(-2px);
         }
-        
+
         .tab:hover::after {
             width: 60%;
         }
-        
+
         .tab.active {
             color: #3b82f6;
             background: rgba(255, 255, 255, 1);
@@ -121,11 +120,11 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             transform: translateY(-2px);
         }
-        
+
         .tab.active::after {
             width: 60%;
         }
-        
+
         .tab-content {
             display: none;
             padding: 40px;
@@ -136,11 +135,11 @@
             border: 1px solid rgba(148, 163, 184, 0.2);
             border-top: none;
         }
-        
+
         .tab-content.active {
             display: block;
         }
-        
+
         .disclaimer {
             background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
             border: 1px solid #0ea5e9;
@@ -153,7 +152,7 @@
             padding-left: 44px;
             position: relative;
         }
-        
+
         .disclaimer::before {
             content: 'ℹ️';
             position: absolute;
@@ -161,23 +160,23 @@
             top: 16px;
             font-size: 16px;
         }
-        
+
         .form-grid {
             align-items: start;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
         }
-        
+
         .form-column {
             display: flex;
             flex-direction: column;
         }
-        
+
         .form-group {
             margin-bottom: 24px;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 8px;
@@ -185,7 +184,7 @@
             color: #1e293b;
             font-size: 14px;
         }
-        
+
         .form-group select,
         .form-group input {
             width: 100%;
@@ -199,7 +198,7 @@
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
         }
-        
+
         .form-group select:focus,
         .form-group input:focus {
             outline: none;
@@ -208,13 +207,13 @@
             background: rgba(255, 255, 255, 0.95);
             transform: translateY(-2px);
         }
-        
+
         .form-group select:hover,
         .form-group input:hover {
             border-color: rgba(59, 130, 246, 0.3);
             transform: translateY(-1px);
         }
-        
+
         .address-info {
             background: #f0f9ff;
             border: 1px solid #0ea5e9;
@@ -224,7 +223,7 @@
             font-size: 13px;
             color: #0c4a6e;
         }
-        
+
         .results {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
             backdrop-filter: blur(20px);
@@ -235,7 +234,7 @@
             position: relative;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08);
         }
-        
+
         .results h3 {
             color: #1e293b;
             margin-bottom: 20px;
@@ -243,7 +242,7 @@
             text-align: center;
             font-weight: 700;
         }
-        
+
         .result-row {
             display: flex;
             justify-content: space-between;
@@ -251,7 +250,7 @@
             padding: 12px 0;
             border-bottom: 1px solid rgba(148, 163, 184, 0.1);
         }
-        
+
         .result-row:last-child {
             border-bottom: none;
             margin: 16px -16px -16px -16px;
@@ -263,25 +262,25 @@
             font-size: 17px;
             box-shadow: 0 8px 25px -5px rgba(0, 255, 163, 0.3);
         }
-        
+
         .result-label {
             color: #64748b;
             font-size: 14px;
             font-weight: 500;
         }
-        
+
         .result-value {
             font-weight: 700;
             color: #1e293b;
             font-size: 15px;
         }
-        
+
         .result-row:last-child .result-label,
         .result-row:last-child .result-value {
             color: #1e293b;
             font-weight: 800;
         }
-        
+
         /* Special styling for return premium - bright mint */
         .return-premium-row {
             background: linear-gradient(135deg, #00FFA3 0%, #03DAC6 100%) !important;
@@ -293,16 +292,48 @@
             font-weight: 700;
             font-size: 17px;
         }
-        
+
         .return-premium-row .result-label,
         .return-premium-row .result-value {
             color: #1e293b !important;
             font-weight: 800;
         }
-        
+
         /* Purple gradient for Coverage Amount, Building Premium, and Earned Premium */
-        .coverage-amount-row,
-        .building-premium-row,
+        .coverage-amount-row {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%) !important;
+            color: white !important;
+            margin: 16px -16px 16px -16px;
+            padding: 20px 16px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 17px;
+            box-shadow: 0 8px 25px -5px rgba(79, 70, 229, 0.3);
+        }
+
+        .coverage-amount-row .result-label,
+        .coverage-amount-row .result-value {
+            color: white !important;
+            font-weight: 800;
+        }
+
+        .building-premium-row {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%) !important;
+            color: white !important;
+            margin: 16px -16px 16px -16px;
+            padding: 20px 16px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 17px;
+            box-shadow: 0 8px 25px -5px rgba(79, 70, 229, 0.3);
+        }
+
+        .building-premium-row .result-label,
+        .building-premium-row .result-value {
+            color: white !important;
+            font-weight: 800;
+        }
+
         .earned-premium-row {
             background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%) !important;
             color: white !important;
@@ -313,17 +344,13 @@
             font-size: 17px;
             box-shadow: 0 8px 25px -5px rgba(79, 70, 229, 0.3);
         }
-        
-        .coverage-amount-row .result-label,
-        .coverage-amount-row .result-value,
-        .building-premium-row .result-label,
-        .building-premium-row .result-value,
+
         .earned-premium-row .result-label,
         .earned-premium-row .result-value {
             color: white !important;
             font-weight: 800;
         }
-        
+
         .status-indicator {
             display: block;
             padding: 10px 16px;
@@ -333,159 +360,184 @@
             text-align: center;
             margin-bottom: 18px;
         }
-        
+
         .status-missing {
             background: linear-gradient(135deg, #fbbf24, #f59e0b);
             color: white;
             box-shadow: 0 4px 14px 0 rgba(251, 191, 36, 0.25);
         }
-        
+
         .status-prompt {
             background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
             box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.25);
         }
-        
+
         .status-complete {
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.25);
         }
-        
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .calculator-container {
                 margin: 20px;
             }
-            
+
             .form-grid {
                 align-items: start;
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
-            
+
             .tabs {
                 flex-direction: column;
             }
-            
+
             .tab {
                 border-bottom: 1px solid rgba(148, 163, 184, 0.1);
             }
-            
+
             .header h1 {
                 font-size: 1.75rem;
             }
-            
+
             .tab-content {
                 padding: 30px 24px;
             }
         }
-        
+
         @media (max-width: 480px) {
             .header {
                 padding: 24px 20px;
             }
-            
+
             .tab-content {
                 padding: 24px 20px;
             }
-            
+
             .form-grid {
                 align-items: start;
                 gap: 24px;
             }
-            
+
             .results {
                 padding: 20px;
             }
         }
-        
-        /* Results banner in the blue card */
-        .results-banner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
+
+        /* Compact vertical rhythm */
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .input,
+        .select {
+            padding: 8px 10px;
+            font-size: 14px;
+        }
+
+        label {
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+
+        /* Results card spacing */
+        .results-card .row {
+            padding: 8px 0;
+        }
+
+        /* Smaller info bubble + pills */
+        #address-info {
             padding: 10px 12px;
-            margin: 8px 0 6px 0;
-            background: #e8f3ff;
-            border: 1px solid #b6dbff;
-            border-radius: 10px;
-            font-weight: 600;
-            color: #0b3d7a;
         }
-        
-        .results-banner-pills {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-        
+
         .pill {
             padding: 2px 8px;
             font-size: 12px;
-            background: #e0f2fe;
-            color: #0c4a6e;
+            background: #e3f2fd;
+            color: #1565c0;
             border-radius: 12px;
             display: inline-block;
+            margin-right: 4px;
         }
-        
-        .pill--invert {
-            background: #0b3d7a;
-            color: #fff;
+
+        /* Compact banner that can hold pills on the right */
+        .results-banner {
+            gap: 10px;
         }
-        
+
+        .results-banner-pills {
+            gap: 6px;
+        }
+
+        .pill.pill--invert {
+            padding: 2px 8px;
+            font-size: 12px;
+        }
+
         .pill-label {
             font-size: 11px;
             opacity: 0.8;
             margin-right: 2px;
         }
-        
+
+        /* results banner in the blue card */
+        .results-banner{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:10px;
+            padding:10px 12px;
+            margin:8px 0 6px 0;
+            background:#e8f3ff;
+            border:1px solid #b6dbff;
+            border-radius:10px;
+            font-weight:600;
+            color:#0b3d7a;
+        }
+
+        .results-banner-pills{
+            display:flex;
+            gap:6px;
+            flex-wrap:wrap;
+        }
+
+        .pill--invert{
+            background:#0b3d7a;
+            color:#fff;
+        }
+
+        /* Coverage input styling */
         .coverage-input-group {
             position: relative;
         }
-        
+
         .coverage-limit-info {
             font-size: 12px;
             color: #64748b;
             margin-top: 4px;
         }
-        
+
         .input-error {
             border-color: #ef4444 !important;
             box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
         }
-        
+
         .error-message {
             font-size: 12px;
             color: #ef4444;
             margin-top: 4px;
         }
-        
-        .address-fields {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .address-field {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .address-field label {
-            font-size: 12px;
-            margin-bottom: 4px;
-        }
-        
-        .address-field input {
-            padding: 10px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            background: #f8f9fa;
-            font-size: 14px;
-        }
+
+        /* Alignment tweak so left inputs and right results start at same top line */
+        .tab-content .form-grid{align-items:start;}
+        .tab-content .form-grid .form-column:first-child{margin-top:0;}
+        .tab-content .form-grid .form-column .form-group:first-child{margin-top:0;}
+        .tab-content .form-grid .results{margin-top:0 !important; padding-top:0;}
+        .tab-content .form-grid .results h3{margin-top:0;}
+        .tab-content .form-grid .results .results-banner{margin-top:0;}
     </style>
 </head>
 <body>
@@ -494,13 +546,13 @@
             <h1>Force Placement Calculator</h1>
             <p>Use to calculate approximate FPI costs and proration</p>
         </div>
-        
+
         <div class="tabs">
             <button class="tab active" onclick="showTab('fpi', this)">Hazard FPI Calculator</button>
             <button class="tab" onclick="showTab('flood', this)">Flood FPI Calculator</button>
             <button class="tab" onclick="showTab('cancellation', this)">Cancellation Estimator</button>
         </div>
-        
+
         <div class="tab-content-wrapper">
             <!-- FPI Calculator Tab -->
             <div id="fpi" class="tab-content active">
@@ -509,21 +561,21 @@
                         <!-- Property Address for FPI -->
                         <div class="form-group">
                             <h4>Property Address:</h4>
-                            <label for="fpi-address-input">Street Address:</label>
-                            <input id="fpi-address-input" type="text" placeholder="Start typing an address...">
-                            
-                            <div class="address-fields">
-                                <div class="address-field">
-                                    <label for="fpi-state">State:</label>
-                                    <input id="fpi-state" type="text" readonly>
-                                </div>
-                                <div class="address-field">
-                                    <label for="fpi-county">County:</label>
-                                    <input id="fpi-county" type="text" readonly>
+                            <label for="fpi-address-input" style="display: block; margin-bottom: 6px; font-weight: 600; color: #1e293b; font-size: 14px;">Street Address:</label>
+                            <input id="fpi-address-input" class="input mb12" name="fpi-address" placeholder="Address" style="margin-bottom: 12px;">
+                            <div class="flex" style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+                                <input type="hidden" id="fpi-city" name="fpi-city">
+                                <input type="hidden" id="fpi-state" name="fpi-state">
+                                <input type="hidden" id="fpi-county" name="fpi-county">
+                                <input type="hidden" id="fpi-zip" name="fpi-zip">
+                                <div id="fpi-detected-pills" style="display:flex; gap:6px; flex-wrap:wrap;">
+                                    <span id="fpi-city-pill" class="pill" style="display:none;"></span>
+                                    <span id="fpi-state-pill" class="pill" style="display:none;"></span>
+                                    <span id="fpi-zip-pill" class="pill" style="display:none;"></span>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="fpi-policy-type">Policy Type:</label>
                             <select id="fpi-policy-type" onchange="calculateFPI()">
@@ -532,7 +584,7 @@
                                 <option value="wind-only">Wind Only</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="fpi-category">Property Category:</label>
                             <select id="fpi-category" onchange="toggleVacancyField(); calculateFPI()">
@@ -542,7 +594,7 @@
                                 <option value="mobile">Mobile Homes</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group" id="vacancy-group" style="display: none;">
                             <label for="fpi-vacancy">Vacancy Status:</label>
                             <select id="fpi-vacancy" onchange="calculateFPI()">
@@ -551,17 +603,17 @@
                                 <option value="vacant">Vacant</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="fpi-coverage">Coverage Amount ($):</label>
                             <input type="text" id="fpi-coverage" placeholder="Enter coverage amount" oninput="formatCurrency(this); calculateFPI()">
                         </div>
                     </div>
-                    
+
                     <div class="form-column">
                         <div class="results">
                             <h3>Hazard FPI Quote Results</h3>
-                            <!-- FPI Results banner -->
+                            <!-- FPI Results banner (with location pills) -->
                             <div id="fpi-results-banner" class="results-banner">
                                 <span id="fpi-results-banner-text">Next: Select a policy type to begin</span>
                                 <div id="fpi-results-banner-pills" class="results-banner-pills" style="display:none">
@@ -597,33 +649,34 @@
                         </div>
                     </div>
                 </div>
-                
                 <div class="disclaimer">
                     This quote calculator is for informational purposes only. Please reach out to your insurance provider to verify the quote and obtain accurate pricing.
                 </div>
             </div>
-            
-            <!-- Flood Calculator Tab -->
+
+            <!-- Enhanced Flood Calculator Tab -->
             <div id="flood" class="tab-content">
                 <div class="form-grid">
                     <div class="form-column">
                         <div class="form-group">
                             <h4>Property Address:</h4>
-                            <label for="address-input">Street Address:</label>
-                            <input id="address-input" type="text" placeholder="Start typing an address...">
-                            
-                            <div class="address-fields">
-                                <div class="address-field">
-                                    <label for="flood-state">State:</label>
-                                    <input id="flood-state" type="text" readonly>
-                                </div>
-                                <div class="address-field">
-                                    <label for="flood-county">County:</label>
-                                    <input id="flood-county" type="text" readonly>
+                            <label for="address-input" style="display: block; margin-bottom: 6px; font-weight: 600; color: #1e293b; font-size: 14px;">Street Address:</label>
+                            <input id="address-input" class="input mb12" name="address" placeholder="Address" style="margin-bottom: 12px;">
+                            <div class="flex" style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+                                <!-- Hidden fields retained for logic compatibility -->
+                                <input type="hidden" id="flood-city" name="city">
+                                <input type="hidden" id="flood-state" name="state">
+                                <input type="hidden" id="flood-county" name="county">
+                                <input type="hidden" id="flood-zip" name="zip">
+                                <!-- Compact "detected" pills -->
+                                <div id="detected-pills" style="display:flex; gap:6px; flex-wrap:wrap;">
+                                    <span id="city-pill" class="pill" style="display:none;"></span>
+                                    <span id="state-pill" class="pill" style="display:none;"></span>
+                                    <span id="zip-pill" class="pill" style="display:none;"></span>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="flood-category">Structure Type:</label>
                             <select id="flood-category" onchange="updateFloodCoverage(); calculateFlood()">
@@ -634,7 +687,7 @@
                                 <option value="Other Residential and Commercial Buildings">Other Residential and Commercial Buildings</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="flood-zone">Flood Zone:</label>
                             <select id="flood-zone" onchange="calculateFlood()">
@@ -645,7 +698,7 @@
                                 <option value="V">Zone V</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group" id="coastal-designation-group" style="display: none;">
                             <label for="coastal-designation">Coastal Designation:</label>
                             <select id="coastal-designation" onchange="calculateFlood()">
@@ -654,7 +707,8 @@
                                 <option value="CHR2">Coastal High Risk Tier 2 (CHR2)</option>
                             </select>
                         </div>
-                        
+
+                        <!-- Building Coverage Input -->
                         <div class="form-group coverage-input-group" id="building-coverage-group">
                             <label for="flood-building-coverage">Building Coverage Amount ($):</label>
                             <input type="text" id="flood-building-coverage" placeholder="Enter building coverage amount" oninput="formatCurrency(this); validateCoverage('building'); calculateFlood()">
@@ -663,7 +717,7 @@
                             </div>
                             <div class="error-message" id="building-error" style="display: none;"></div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="flood-contents">Contents Coverage:</label>
                             <select id="flood-contents" onchange="updateContentsDisplay(); calculateFlood()">
@@ -671,7 +725,8 @@
                                 <option value="yes">Add Contents Coverage</option>
                             </select>
                         </div>
-                        
+
+                        <!-- Contents Coverage Input -->
                         <div class="form-group coverage-input-group" id="contents-coverage-group" style="display: none;">
                             <label for="flood-contents-coverage">Contents Coverage Amount ($):</label>
                             <input type="text" id="flood-contents-coverage" placeholder="Enter contents coverage amount" oninput="formatCurrency(this); validateCoverage('contents'); calculateFlood()">
@@ -681,10 +736,11 @@
                             <div class="error-message" id="contents-error" style="display: none;"></div>
                         </div>
                     </div>
-                    
+
                     <div class="form-column">
                         <div class="results">
                             <h3>Flood FPI Quote Results</h3>
+                            <!-- Results banner (hosts "next" text + detected location pills) -->
                             <div id="results-banner" class="results-banner">
                                 <span id="results-banner-text">Next: Select the structure type</span>
                                 <div id="results-banner-pills" class="results-banner-pills" style="display:none">
@@ -729,12 +785,11 @@
                         </div>
                     </div>
                 </div>
-                
                 <div class="disclaimer">
                     This quote calculator is for informational purposes only. Please reach out to your insurance provider to verify the quote and obtain accurate pricing.
                 </div>
             </div>
-            
+
             <!-- Cancellation Calculator Tab -->
             <div id="cancellation" class="tab-content">
                 <div class="form-grid">
@@ -747,23 +802,23 @@
                                 <option value="flood">Flood (Pro-Rata)</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="cancel-issue-date">Policy Issue Date:</label>
                             <input type="date" id="cancel-issue-date" onchange="calculateCancellation()">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="cancel-cancel-date">Cancellation Date:</label>
                             <input type="date" id="cancel-cancel-date" onchange="calculateCancellation()">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="cancel-premium">Annual Premium ($):</label>
                             <input type="text" id="cancel-premium" placeholder="Enter annual premium" oninput="formatCurrency(this); calculateCancellation()">
                         </div>
                     </div>
-                    
+
                     <div class="form-column">
                         <div class="results">
                             <h3>Prorated Cancellation Results</h3>
@@ -791,15 +846,175 @@
                         </div>
                     </div>
                 </div>
-                
                 <div class="disclaimer">
                     This cancellation calculator is for informational purposes only. Please reach out to your insurance provider to verify cancellation terms and return premium calculations.
                 </div>
             </div>
         </div>
     </div>
-    
+
+    <!-- Google Maps API with Places library -->
     <script>
+        // Google Maps API Key
+        const GOOGLE_API_KEY = 'AIzaSyCKhd6RLYsytxnCU6aNgjOqQQTkmnKpkUo';
+        
+        // Load Google Maps Script
+        function loadGoogleMaps() {
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}&libraries=places&callback=initAutocomplete`;
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        }
+        
+        // Initialize Google Places Autocomplete
+        function initAutocomplete() {
+            // FPI Address Autocomplete
+            const fpiInput = document.getElementById('fpi-address-input');
+            const fpiAutocomplete = new google.maps.places.Autocomplete(fpiInput, {
+                types: ['address'],
+                componentRestrictions: { country: 'us' }
+            });
+            
+            fpiAutocomplete.addListener('place_changed', function() {
+                const place = fpiAutocomplete.getPlace();
+                processFPIGoogleAddress(place);
+            });
+            
+            // Flood Address Autocomplete
+            const floodInput = document.getElementById('address-input');
+            const floodAutocomplete = new google.maps.places.Autocomplete(floodInput, {
+                types: ['address'],
+                componentRestrictions: { country: 'us' }
+            });
+            
+            floodAutocomplete.addListener('place_changed', function() {
+                const place = floodAutocomplete.getPlace();
+                processFloodGoogleAddress(place);
+            });
+        }
+        
+        // Process FPI Google Address
+        function processFPIGoogleAddress(place) {
+            if (!place.address_components) return;
+            
+            let city = '';
+            let state = '';
+            let county = '';
+            let zip = '';
+            
+            // Extract address components
+            for (const component of place.address_components) {
+                const types = component.types;
+                
+                if (types.includes('locality')) {
+                    city = component.long_name;
+                } else if (types.includes('administrative_area_level_1')) {
+                    state = component.short_name;
+                } else if (types.includes('administrative_area_level_2')) {
+                    county = component.long_name.replace(' County', '').replace(' Parish', '');
+                } else if (types.includes('postal_code')) {
+                    zip = component.long_name;
+                }
+            }
+            
+            // Update hidden fields
+            document.getElementById('fpi-city').value = city;
+            document.getElementById('fpi-state').value = state;
+            document.getElementById('fpi-county').value = county;
+            document.getElementById('fpi-zip').value = zip;
+            
+            // Update pills
+            updatePill('fpi-city-pill', city);
+            updatePill('fpi-state-pill', state);
+            updatePill('fpi-zip-pill', zip);
+            
+            // Determine coastal designation
+            const coastalDesignation = county ? determineCoastalDesignation(state, county) : null;
+            
+            // Store address data
+            fpiAddressLookupData = {
+                state: state,
+                county: county,
+                city: city,
+                coastalDesignation: coastalDesignation
+            };
+            
+            // Update tax labels
+            updateTaxLabels(state, 'fpi-');
+            
+            // Update results banner and recalculate
+            updateFPIResultsBanner();
+            calculateFPI();
+        }
+        
+        // Process Flood Google Address
+        function processFloodGoogleAddress(place) {
+            if (!place.address_components) return;
+            
+            let city = '';
+            let state = '';
+            let county = '';
+            let zip = '';
+            
+            // Extract address components
+            for (const component of place.address_components) {
+                const types = component.types;
+                
+                if (types.includes('locality')) {
+                    city = component.long_name;
+                } else if (types.includes('administrative_area_level_1')) {
+                    state = component.short_name;
+                } else if (types.includes('administrative_area_level_2')) {
+                    county = component.long_name.replace(' County', '').replace(' Parish', '');
+                } else if (types.includes('postal_code')) {
+                    zip = component.long_name;
+                }
+            }
+            
+            // Update hidden fields
+            document.getElementById('flood-city').value = city;
+            document.getElementById('flood-state').value = state;
+            document.getElementById('flood-county').value = county;
+            document.getElementById('flood-zip').value = zip;
+            
+            // Update pills
+            updatePill('city-pill', city);
+            updatePill('state-pill', state);
+            updatePill('zip-pill', zip);
+            
+            // Determine coastal designation
+            const coastalDesignation = county ? determineCoastalDesignation(state, county) : null;
+            
+            // Store address data
+            addressLookupData = {
+                state: state,
+                county: county,
+                city: city,
+                coastalDesignation: coastalDesignation
+            };
+            
+            // Update tax labels
+            updateTaxLabels(state, 'flood-');
+            
+            // Update results banner and recalculate
+            updateResultsBanner();
+            calculateFlood();
+        }
+        
+        // Helper function to update pills
+        function updatePill(pillId, value) {
+            const pill = document.getElementById(pillId);
+            if (pill) {
+                if (value) {
+                    pill.textContent = value;
+                    pill.style.display = 'inline-block';
+                } else {
+                    pill.style.display = 'none';
+                }
+            }
+        }
+
         // Short Rate Cancellation Table from Policy Document (FPI Only)
         const shortRateTable = {
             1: 5, 2: 6, 3: 7, 4: 7, 5: 8, 6: 8, 7: 9, 8: 9, 9: 10, 10: 10,
@@ -823,7 +1038,7 @@
             181: 60, 182: 60, 183: 61, 184: 61, 185: 61, 186: 61, 187: 61, 188: 62, 189: 62, 190: 62,
             191: 62, 192: 63, 193: 63, 194: 63, 195: 63, 196: 63, 197: 64, 198: 64, 199: 64, 200: 64
         };
-        
+
         // Continue the short rate table for remaining days
         for (let i = 201; i <= 365; i++) {
             if (i <= 205) shortRateTable[i] = 65;
@@ -863,8 +1078,8 @@
             else if (i <= 360) shortRateTable[i] = 99;
             else shortRateTable[i] = 100;
         }
-        
-        // FPI Rate Tables
+
+        // FPI Rate Tables (From Policy Document - All Other Lender Placed rates, no GSE)
         const fpiRates = {
             'hazard-wind': {
                 'residential': {
@@ -927,8 +1142,8 @@
                 }
             }
         };
-        
-        // Coastal Counties Data
+
+        // Coastal Counties Data from PDF (abbreviated for key states)
         const coastalCounties = {
             tier1: {
                 'AL': ['Baldwin', 'Mobile'],
@@ -970,7 +1185,7 @@
                 'VA': ['Essex', 'Isle of Wight', 'James City', 'King and Queen', 'Richmond', 'Southampton', 'Surry', 'Westmoreland']
             }
         };
-        
+
         // Louisiana special designations
         const chr2Counties = ['East Baton Rouge', 'West Baton Rouge'];
         const louisianaCHRACounties = [
@@ -978,8 +1193,8 @@
             'St. Charles', 'St. Bernard', 'St. Helena', 'St. James', 'St. John the Baptist',
             'St. Tammany', 'Tangipahoa', 'Terrebonne', 'Washington'
         ];
-        
-        // Flood Rate Tables
+
+        // Flood Rate Tables from Policy Document
         const floodRates = {
             building: {
                 'Residential (1-4 Unit)': {
@@ -1011,9 +1226,10 @@
                         'LA': { rate: 5.00, icc: 48, minPrem: 190 }
                     }
                 }
+                // Add other property types as needed from your existing data
             }
         };
-        
+
         // Coverage limits by property type
         const floodCoverageLimits = {
             'Residential (1-4 Unit)': { building: 250000, contents: 100000 },
@@ -1021,122 +1237,26 @@
             'Manufactured or Mobile Homes': { building: 250000, contents: 100000 },
             'Other Residential and Commercial Buildings': { building: 500000, contents: 500000 }
         };
-        
-        // State-specific tax rates
+
+        // State-specific tax rates (updated with accurate 2025 rates)
         const stateTaxRates = {
-            'FL': { surplusLines: 0.0494, stamping: 0.0006 },
-            'CA': { surplusLines: 0.03, stamping: 0.0018 },
-            'TX': { surplusLines: 0.048, stamping: 0.002 },
-            'NY': { surplusLines: 0.036, stamping: 0.0015 },
-            'LA': { surplusLines: 0.05, stamping: 0.004 },
-            'WA': { surplusLines: 0.02, stamping: 0.003 },
-            'CO': { surplusLines: 0.03, stamping: 0.00175 },
-            'HI': { surplusLines: 0.0468, stamping: 0.002 },
-            'MN': { surplusLines: 0.03, stamping: 0.002 },
-            'DEFAULT': { surplusLines: 0.05, stamping: 0.002 }
+            'FL': { surplusLines: 0.0494, stamping: 0.0006 }, // 4.94% surplus, 0.06% stamping
+            'CA': { surplusLines: 0.03, stamping: 0.0018 }, // 3% surplus, 0.18% stamping
+            'TX': { surplusLines: 0.048, stamping: 0.002 }, // 4.8% surplus, 0.2% stamping
+            'NY': { surplusLines: 0.036, stamping: 0.0015 }, // 3.6% surplus, 0.15% stamping
+            'LA': { surplusLines: 0.05, stamping: 0.004 }, // 5% surplus, 0.4% stamping
+            'WA': { surplusLines: 0.02, stamping: 0.003 }, // 2% surplus, 0.30% stamping
+            'CO': { surplusLines: 0.03, stamping: 0.00175 }, // 3% surplus, 0.175% transaction fee
+            'HI': { surplusLines: 0.0468, stamping: 0.002 }, // 4.68% surplus, 0.2% stamping
+            'MN': { surplusLines: 0.03, stamping: 0.002 }, // 3% surplus, 0.2% stamping
+            'DEFAULT': { surplusLines: 0.05, stamping: 0.002 } // Default rates
         };
-        
-        // Global variables
-        let addressLookupData = null;
-        let fpiAddressLookupData = null;
-        let fpiInteracted = false;
-        let floodInteracted = false;
-        let cancelInteracted = false;
-        
-        // Google Places Autocomplete Setup
-        function initGooglePlaces() {
-            // FPI Calculator autocomplete
-            const fpiInput = document.getElementById('fpi-address-input');
-            if (fpiInput) {
-                const fpiAutocomplete = new google.maps.places.Autocomplete(fpiInput, {
-                    types: ['address'],
-                    componentRestrictions: { country: 'us' }
-                });
-                
-                fpiAutocomplete.addListener('place_changed', function() {
-                    const place = fpiAutocomplete.getPlace();
-                    if (place.address_components) {
-                        let state = '';
-                        let county = '';
-                        
-                        place.address_components.forEach(component => {
-                            if (component.types.includes('administrative_area_level_1')) {
-                                state = component.short_name;
-                            }
-                            if (component.types.includes('administrative_area_level_2')) {
-                                county = component.long_name.replace(' County', '').replace(' Parish', '');
-                            }
-                        });
-                        
-                        document.getElementById('fpi-state').value = state;
-                        document.getElementById('fpi-county').value = county;
-                        
-                        fpiAddressLookupData = {
-                            state: state,
-                            county: county,
-                            coastalDesignation: determineCoastalDesignation(state, county)
-                        };
-                        
-                        updateTaxLabels(state, 'fpi-');
-                        updateFPIResultsBanner();
-                        calculateFPI();
-                    }
-                });
-            }
-            
-            // Flood Calculator autocomplete
-            const floodInput = document.getElementById('address-input');
-            if (floodInput) {
-                const floodAutocomplete = new google.maps.places.Autocomplete(floodInput, {
-                    types: ['address'],
-                    componentRestrictions: { country: 'us' }
-                });
-                
-                floodAutocomplete.addListener('place_changed', function() {
-                    const place = floodAutocomplete.getPlace();
-                    if (place.address_components) {
-                        let state = '';
-                        let county = '';
-                        
-                        place.address_components.forEach(component => {
-                            if (component.types.includes('administrative_area_level_1')) {
-                                state = component.short_name;
-                            }
-                            if (component.types.includes('administrative_area_level_2')) {
-                                county = component.long_name.replace(' County', '').replace(' Parish', '');
-                            }
-                        });
-                        
-                        document.getElementById('flood-state').value = state;
-                        document.getElementById('flood-county').value = county;
-                        
-                        addressLookupData = {
-                            state: state,
-                            county: county,
-                            coastalDesignation: determineCoastalDesignation(state, county)
-                        };
-                        
-                        updateTaxLabels(state, 'flood-');
-                        updateResultsBanner();
-                        calculateFlood();
-                    }
-                });
-            }
-        }
-        
-        // Initialize when page loads
-        window.addEventListener('load', function() {
-            initGooglePlaces();
-            setDefaultDates();
-            updateTaxLabels('DEFAULT', 'fpi-');
-            updateTaxLabels('DEFAULT', 'flood-');
-        });
-        
-        // Helper functions
+
         function getStateTaxRates(state) {
             return stateTaxRates[state] || stateTaxRates['DEFAULT'];
         }
-        
+
+        // Function to update tax labels based on current state
         function updateTaxLabels(state, prefix = '') {
             const surplusLabel = document.getElementById(`${prefix}surplus-tax-label`);
             const stampLabel = document.getElementById(`${prefix}stamp-tax-label`);
@@ -1153,6 +1273,7 @@
                     stampLabel.textContent = `Stamping / Service Fee (${stampPercent}%):`;
                 }
             } else {
+                // Show generic labels when no state is known
                 if (surplusLabel) {
                     surplusLabel.textContent = 'Surplus Lines Tax:';
                 }
@@ -1161,7 +1282,33 @@
                 }
             }
         }
-        
+
+        // Global variables
+        let addressLookupData = null;
+        let fpiAddressLookupData = null;
+        let fpiInteracted = false;
+        let floodInteracted = false;
+        let cancelInteracted = false;
+
+        function getStateAbbreviation(stateName) {
+            const stateMap = {
+                'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR',
+                'California': 'CA', 'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE',
+                'Florida': 'FL', 'Georgia': 'GA', 'Hawaii': 'HI', 'Idaho': 'ID',
+                'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA', 'Kansas': 'KS',
+                'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 'Maryland': 'MD',
+                'Massachusetts': 'MA', 'Michigan': 'MI', 'Minnesota': 'MN', 'Mississippi': 'MS',
+                'Missouri': 'MO', 'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV',
+                'New Hampshire': 'NH', 'New Jersey': 'NJ', 'New Mexico': 'NM', 'New York': 'NY',
+                'North Carolina': 'NC', 'North Dakota': 'ND', 'Ohio': 'OH', 'Oklahoma': 'OK',
+                'Oregon': 'OR', 'Pennsylvania': 'PA', 'Rhode Island': 'RI', 'South Carolina': 'SC',
+                'South Dakota': 'SD', 'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT',
+                'Vermont': 'VT', 'Virginia': 'VA', 'Washington': 'WA', 'West Virginia': 'WV',
+                'Wisconsin': 'WI', 'Wyoming': 'WY'
+            };
+            return stateMap[stateName];
+        }
+
         function determineCoastalDesignation(state, county) {
             if (!county) return null;
             
@@ -1178,7 +1325,7 @@
             // Check tier 1 coastal counties
             if (coastalCounties.tier1[state]) {
                 for (const tier1County of coastalCounties.tier1[state]) {
-                    if (county.toLowerCase().includes(tier1County.toLowerCase()) ||
+                    if (county.toLowerCase().includes(tier1County.toLowerCase()) || 
                         tier1County.toLowerCase().includes(county.toLowerCase())) {
                         if (state === 'LA') {
                             return 'CHRA (Coastal High Risk Area)';
@@ -1191,7 +1338,7 @@
             // Check tier 2 coastal counties
             if (coastalCounties.tier2[state]) {
                 for (const tier2County of coastalCounties.tier2[state]) {
-                    if (county.toLowerCase().includes(tier2County.toLowerCase()) ||
+                    if (county.toLowerCase().includes(tier2County.toLowerCase()) || 
                         tier2County.toLowerCase().includes(county.toLowerCase())) {
                         return 'Tier 2 Coastal County';
                     }
@@ -1200,7 +1347,8 @@
             
             return null; // Standard rate
         }
-        
+
+        // Helper function to format currency with cents
         function formatCurrencyValue(amount) {
             return new Intl.NumberFormat('en-US', {
                 style: 'currency',
@@ -1209,7 +1357,8 @@
                 maximumFractionDigits: 2
             }).format(amount);
         }
-        
+
+        // Helper function to get today's date in YYYY-MM-DD format
         function getTodayDate() {
             const today = new Date();
             const year = today.getFullYear();
@@ -1217,7 +1366,8 @@
             const day = String(today.getDate()).padStart(2, '0');
             return `${year}-${month}-${day}`;
         }
-        
+
+        // Helper function to get date 10 days from today
         function getDatePlusDays(days) {
             const date = new Date();
             date.setDate(date.getDate() + days);
@@ -1226,7 +1376,8 @@
             const day = String(date.getDate()).padStart(2, '0');
             return `${year}-${month}-${day}`;
         }
-        
+
+        // Set default dates for cancellation calculator
         function setDefaultDates() {
             const issueDate = document.getElementById('cancel-issue-date');
             const cancelDate = document.getElementById('cancel-cancel-date');
@@ -1238,25 +1389,30 @@
                 cancelDate.value = getDatePlusDays(10);
             }
         }
-        
+
         function showTab(tabName, tabButton) {
+            // Don't do anything if it's already active
             if (tabButton.classList.contains('active')) return;
             
+            // Update tab buttons
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             tabButton.classList.add('active');
             
+            // Show/hide content
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
             document.getElementById(tabName).classList.add('active');
             
+            // Set default dates when cancellation tab is shown
             if (tabName === 'cancellation') {
                 setTimeout(setDefaultDates, 100);
             }
         }
-        
+
+        // Rest of the existing functions (FPI, Flood, Cancellation calculations)
         function toggleVacancyField() {
             const category = document.getElementById('fpi-category').value;
             const vacancyGroup = document.getElementById('vacancy-group');
@@ -1269,7 +1425,7 @@
             }
             calculateFPI();
         }
-        
+
         function formatCurrency(input) {
             let value = input.value.replace(/[^\d]/g, '');
             if (value) {
@@ -1277,22 +1433,26 @@
                 input.value = value;
             }
         }
-        
+
         function parseCurrency(value) {
+            // Parse strings like "$250,000.00" or "250000" into a proper number
             const cleaned = String(value || '').replace(/[^0-9.]/g, '');
             const num = parseFloat(cleaned);
             return isNaN(num) ? 0 : num;
         }
-        
+
+        // New function to update FPI results banner
         function updateFPIResultsBanner() {
             const textEl = document.getElementById('fpi-results-banner-text');
             const pillsEl = document.getElementById('fpi-results-banner-pills');
             
+            // Get form state
             const policyType = document.getElementById('fpi-policy-type').value;
             const category = document.getElementById('fpi-category').value;
             const vacancy = document.getElementById('fpi-vacancy').value;
             const coverageStr = document.getElementById('fpi-coverage').value;
             
+            // Update status text based on form completion
             let message = '';
             if (!policyType) {
                 message = 'Next: Select a policy type to begin';
@@ -1308,6 +1468,7 @@
             
             if (textEl) textEl.textContent = message;
             
+            // Update location pills with labels
             if (fpiAddressLookupData && pillsEl) {
                 const city = fpiAddressLookupData.city;
                 const state = fpiAddressLookupData.state;
@@ -1334,7 +1495,7 @@
                 pillsEl.style.display = 'none';
             }
         }
-        
+
         function calculateFPI() {
             const policyType = document.getElementById('fpi-policy-type').value;
             const category = document.getElementById('fpi-category').value;
@@ -1355,6 +1516,7 @@
                 }
             }
             
+            // Determine region based on address data
             let region = 'all-except';
             let currentState = 'DEFAULT';
             
@@ -1364,6 +1526,7 @@
                 const coastalDesignation = fpiAddressLookupData.coastalDesignation;
                 const county = fpiAddressLookupData.county;
                 
+                // Florida Miami counties get special rate
                 if (state === 'FL' && county) {
                     const miamiCounties = ['miami-dade', 'dade', 'broward', 'palm beach'];
                     const countyLower = county.toLowerCase();
@@ -1376,14 +1539,16 @@
                     region = 'florida';
                 } else if (['CA', 'HI'].includes(state) || (coastalDesignation && coastalDesignation.includes('Coastal'))) {
                     region = 'ca-hi-coastal';
-                } else if (['AL', 'MS', 'LA', 'TX'].includes(state) &&
-                           ((coastalDesignation && coastalDesignation.includes('Coastal')) ||
-                            (state === 'TX' && county && county.toLowerCase().includes('harris')))) {
+                } else if (['AL', 'MS', 'LA', 'TX'].includes(state) && 
+                          ((coastalDesignation && coastalDesignation.includes('Coastal')) || 
+                           (state === 'TX' && county && county.toLowerCase().includes('harris')))) {
                     region = 'coastal-gulf';
                 }
             }
             
+            // Update the banner
             updateFPIResultsBanner();
+            
             document.getElementById('fpi-coverage-display').textContent = formatCurrencyValue(coverage);
             
             if (policyType && actualCategory && (category !== 'commercial' || vacancy)) {
@@ -1394,6 +1559,7 @@
                     const basePremium = Math.round(coverage * rate / 100);
                     document.getElementById('fpi-premium-display').textContent = formatCurrencyValue(basePremium);
                     
+                    // Dynamic tax calculation based on state
                     const taxRates = getStateTaxRates(currentState);
                     const surplusTax = Math.round(basePremium * taxRates.surplusLines);
                     const stampTax = Math.round(basePremium * taxRates.stamping);
@@ -1416,7 +1582,7 @@
                 document.getElementById('fpi-total-display').textContent = formatCurrencyValue(0);
             }
         }
-        
+
         function updateFloodCoverage() {
             const category = document.getElementById('flood-category').value;
             const buildingInput = document.getElementById('flood-building-coverage');
@@ -1445,12 +1611,13 @@
                 contentsInput.placeholder = 'Enter contents coverage amount';
             }
             
+            // Clear any existing validation errors
             document.getElementById('building-error').style.display = 'none';
             document.getElementById('contents-error').style.display = 'none';
             buildingInput.classList.remove('input-error');
             contentsInput.classList.remove('input-error');
         }
-        
+
         function updateContentsDisplay() {
             const hasContents = document.getElementById('flood-contents').value === 'yes';
             const contentsGroup = document.getElementById('contents-coverage-group');
@@ -1462,10 +1629,11 @@
             } else {
                 contentsGroup.style.display = 'none';
                 contentsPremiumRow.style.display = 'none';
+                // Clear contents coverage input
                 document.getElementById('flood-contents-coverage').value = '';
             }
         }
-        
+
         function validateCoverage(type) {
             const category = document.getElementById('flood-category').value;
             if (!category) return true;
@@ -1474,7 +1642,6 @@
             if (!limits) return true;
             
             let input, errorEl, maxLimit;
-            
             if (type === 'building') {
                 input = document.getElementById('flood-building-coverage');
                 errorEl = document.getElementById('building-error');
@@ -1490,6 +1657,7 @@
             const amount = parseCurrency(input.value);
             
             if (maxLimit === 0) {
+                // Condominium building coverage is handled by association
                 if (type === 'building') {
                     input.classList.add('input-error');
                     errorEl.textContent = 'Building coverage is provided by the condominium association';
@@ -1507,7 +1675,7 @@
                 return true;
             }
         }
-        
+
         function getFloodRate(propertyType, zone, state, coastalDesignation = '') {
             if (coastalDesignation?.includes('CHRA') && zone === 'A') {
                 const chraRates = {
@@ -1536,7 +1704,7 @@
             
             return { rate: 1.0, icc: 33, minPrem: 300 };
         }
-        
+
         function findRateByState(zoneRates, state) {
             if (zoneRates[state]) return zoneRates[state];
             
@@ -1548,20 +1716,21 @@
             
             return zoneRates.default || { rate: 1.0, icc: 33, minPrem: 300 };
         }
-        
+
         function calculateFlood() {
             const category = document.getElementById('flood-category').value;
             const stateInput = document.getElementById('flood-state').value;
             const zone = document.getElementById('flood-zone').value;
             const hasContents = document.getElementById('flood-contents').value === 'yes';
             
+            // Get coverage amounts from inputs
             const buildingCoverageStr = document.getElementById('flood-building-coverage').value;
             const contentsCoverageStr = document.getElementById('flood-contents-coverage').value;
             const buildingCoverage = parseCurrency(buildingCoverageStr);
             const contentsCoverage = parseCurrency(contentsCoverageStr);
             
+            // If blank, populate inputs with maximum defaults so the user sees what's used
             const limits = floodCoverageLimits[category] || {building:0, contents:0};
-            
             if (!buildingCoverage && limits.building) {
                 document.getElementById('flood-building-coverage').value = formatCurrencyValue(limits.building);
             }
@@ -1573,9 +1742,11 @@
                 floodInteracted = true;
             }
             
+            // Use address lookup data if available, otherwise use manual input
             const state = addressLookupData?.state || stateInput;
             const coastalDesignation = addressLookupData?.coastalDesignation;
             
+            // Validate coverage amounts
             const validBuilding = validateCoverage('building');
             const validContents = hasContents ? validateCoverage('contents') : true;
             
@@ -1583,6 +1754,7 @@
                 return;
             }
             
+            // Update the flood results banner
             updateResultsBanner();
             
             if (category && state && zone) {
@@ -1595,8 +1767,10 @@
                 let buildingPremium = 0;
                 let contentsPremium = 0;
                 
+                // Use entered building coverage or default to maximum if none entered
                 const effectiveBuildingCoverage = buildingCoverage > 0 ? buildingCoverage : limits.building;
                 
+                // Show rate and coverage used
                 document.getElementById('flood-rate-display').textContent = formatCurrencyValue(rateInfo.rate);
                 document.getElementById('flood-coverage-display').textContent = formatCurrencyValue(effectiveBuildingCoverage);
                 
@@ -1605,6 +1779,7 @@
                 }
                 
                 if (hasContents) {
+                    // Use entered contents coverage or default to maximum if none entered
                     const effectiveContentsCoverage = contentsCoverage > 0 ? contentsCoverage : limits.contents;
                     if (limits.contents > 0 && effectiveContentsCoverage > 0) {
                         const contentsRate = (zone === 'V') ? 3.00 : 1.40;
@@ -1623,6 +1798,7 @@
                 document.getElementById('flood-icc-display').textContent = formatCurrencyValue(iccCharge);
                 document.getElementById('flood-pretax-display').textContent = formatCurrencyValue(Math.round(basePremium));
                 
+                // Dynamic tax calculation based on state
                 const currentState = state || 'DEFAULT';
                 const taxRates = getStateTaxRates(currentState);
                 const surplusTax = Math.round(basePremium * taxRates.surplusLines);
@@ -1643,7 +1819,7 @@
                 document.getElementById('flood-coverage-display').textContent = formatCurrencyValue(0);
             }
         }
-        
+
         function calculateCancellation() {
             const policyType = document.getElementById('cancel-policy-type').value;
             const issueDate = document.getElementById('cancel-issue-date').value;
@@ -1661,7 +1837,6 @@
                 statusEl.style.display = 'none';
             } else {
                 statusEl.style.display = 'block';
-                
                 if (!policyType) {
                     statusEl.textContent = 'Next: Select the policy type to begin';
                     statusEl.className = 'status-indicator status-prompt';
@@ -1694,4 +1869,90 @@
                     earnedPercent = shortRateTable[Math.min(daysInForce, 365)] || 100;
                 } else {
                     document.getElementById('cancel-method-display').textContent = 'Pro-Rata';
-                    earnedPercent
+                    earnedPercent = Math.min(Math.round((daysInForce / 365) * 100), 100);
+                }
+                
+                document.getElementById('cancel-percent-display').textContent = `${earnedPercent}%`;
+                
+                const earnedPremium = Math.round(premium * earnedPercent / 100);
+                document.getElementById('cancel-earned-display').textContent = formatCurrencyValue(earnedPremium);
+                
+                const returnPremium = premium - earnedPremium;
+                document.getElementById('cancel-return-display').textContent = formatCurrencyValue(returnPremium);
+            } else {
+                document.getElementById('cancel-days-display').textContent = '0';
+                document.getElementById('cancel-method-display').textContent = '-';
+                document.getElementById('cancel-percent-display').textContent = '0%';
+                document.getElementById('cancel-earned-display').textContent = formatCurrencyValue(0);
+                document.getElementById('cancel-return-display').textContent = formatCurrencyValue(0);
+            }
+        }
+
+        function updateResultsBanner(opts = {}) {
+            const { message, city, state, zip, county } = opts;
+            const textEl = document.getElementById('results-banner-text');
+            const pillsEl = document.getElementById('results-banner-pills');
+            
+            // Get form state to determine proper message
+            const category = document.getElementById('flood-category').value;
+            const zone = document.getElementById('flood-zone').value;
+            const buildingCoverageStr = document.getElementById('flood-building-coverage').value;
+            const hasContents = document.getElementById('flood-contents').value === 'yes';
+            const contentsCoverageStr = document.getElementById('flood-contents-coverage').value;
+            
+            // Determine status message based on form completion
+            let statusMessage = '';
+            if (!category) {
+                statusMessage = 'Next: Select the structure type';
+            } else if (!zone) {
+                statusMessage = 'Next: Choose the flood zone';
+            } else if (!buildingCoverageStr) {
+                statusMessage = 'Next: Enter building coverage amount';
+            } else if (hasContents && !contentsCoverageStr) {
+                statusMessage = 'Next: Enter contents coverage amount';
+            } else {
+                statusMessage = '✓ Quote calculated successfully';
+            }
+            
+            if (textEl) textEl.textContent = statusMessage;
+            
+            // Update location pills from address data with labels
+            if (addressLookupData && pillsEl) {
+                const cityValue = addressLookupData.city;
+                const stateValue = addressLookupData.state;
+                const countyValue = addressLookupData.county;
+                
+                const set = (id, label, val) => {
+                    const el = document.getElementById(id);
+                    if (!el) return;
+                    if (val) {
+                        el.innerHTML = `<span class="pill-label">${label}:</span>${val}`;
+                        el.style.display = 'inline-block';
+                    } else {
+                        el.style.display = 'none';
+                    }
+                };
+                
+                set('rb-city', 'City', cityValue);
+                set('rb-state', 'State', stateValue);
+                set('rb-county', 'County', countyValue);
+                
+                const hasAnyPill = !!(cityValue || stateValue || countyValue);
+                pillsEl.style.display = hasAnyPill ? 'flex' : 'none';
+            } else if (pillsEl) {
+                pillsEl.style.display = 'none';
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setDefaultDates();
+            // Initialize tax labels with default rates
+            updateTaxLabels('DEFAULT', 'fpi-');
+            updateTaxLabels('DEFAULT', 'flood-');
+            // Load Google Maps
+            loadGoogleMaps();
+        });
+    </script>
+</body>
+</html>
